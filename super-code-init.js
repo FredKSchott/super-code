@@ -128,7 +128,7 @@
     root.appendChild(clone);
     var myCodeEl = root.querySelector('#mycode');
     var myPreEl = root.querySelector('#mycodepre');
-    var titleEl = root.querySelector('.title-container');
+    var headerEl = root.querySelector('.header');
 
     myCodeEl.className += ' language-' + this.getAttribute('language');
 
@@ -141,12 +141,12 @@
     }
 
     if (this.getAttribute('title')) {
-      titleEl.style.display = 'block';
-      titleEl.textContent = this.getAttribute('title');
+      headerEl.style.display = 'block';
+      headerEl.textContent = this.getAttribute('title');
     }
 
     if (this.getAttribute('header-color')) {
-      titleEl.style.backgroundColor = this.getAttribute('header-color');
+      headerEl.style.backgroundColor = this.getAttribute('header-color');
     }
 
     function paintElement() {

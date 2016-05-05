@@ -8,6 +8,7 @@
 
 
     <link rel="import" href="super-code.html">
+    <link rel="stylesheet" type="text/css" href="themes/dark.css">
 
     <style>
       body {
@@ -28,6 +29,10 @@
         --header-background-color: #F75934;
         --header-background-effect: none;
         --header-color: white;
+      }
+
+      super-code {
+        @apply --super-code-theme-dark;
       }
     </style>
 
@@ -53,6 +58,11 @@
         <div slot="footer" style="background-color: #111; color: #CCC; padding: .4em 1em; font-family: Monaco; font-size: 12px; ">And I'm a custom slot footer!</div>
       </super-code>
 
+      <br>
+
+      <super-code class="every-day-im-theming" language="javascript" line-numbers="on" highlight-lines="2">function sum(x, y) {
+  return x + y;
+}</super-code>
 
   </body>
 

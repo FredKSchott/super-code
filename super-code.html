@@ -276,13 +276,92 @@
   </style>
 
   <style>
+    /* theming */
+
+    /**
+     * prism.js default theme for JavaScript, CSS and HTML
+     * Based on dabblet (http://dabblet.com)
+     * @author Lea Verou
+     */
+    code[class*="language-"] {
+      @apply --super-code-theme-code;
+    }
+    pre[class*="language-"] {
+      @apply --super-code-theme-pre;
+    }
+
+    pre[class*="language-"]::selection,
+    pre[class*="language-"] ::selection {
+      @apply --super-code-theme- pre-selection;
+    }
+
+    code[class*="language-"]::selection,
+    code[class*="language-"] ::selection {
+      @apply --super-code-theme- code-selection;
+    }
+
+    :not(pre) > code[class*="language-"] {
+      @apply --super-code-theme-not-pre-code;
+    }
+
+    @media print {
+      pre[class*="language-"],
+      code[class*="language-"] {
+        @apply --super-code-theme-media-print;
+      }
+    }
+
+    .token.comment { @apply --super-code-theme-token-comment; }
+    .token.prolog { @apply --super-code-theme-token-prolog; }
+    .token.doctype { @apply --super-code-theme-token-doctype; }
+    .token.cdata { @apply --super-code-theme-token-cdata; }
+    .token.punctuation { @apply --super-code-theme-token-punctuation; }
+    .namespace { @apply --super-code-theme-namespace; }
+    .token.property { @apply --super-code-theme-token-property; }
+    .token.tag { @apply --super-code-theme-token-tag; }
+    .token.boolean { @apply --super-code-theme-token-boolean; }
+    .token.number { @apply --super-code-theme-token-number; }
+    .token.constant { @apply --super-code-theme-token-constant; }
+    .token.symbol { @apply --super-code-theme-token-symbol; }
+    .token.deleted { @apply --super-code-theme-token-deleted; }
+    .token.selector { @apply --super-code-theme-token-selector; }
+    .token.attr-name { @apply --super-code-theme-token-attr-name; }
+    .token.string { @apply --super-code-theme-token-string; }
+    .token.char { @apply --super-code-theme-token-char; }
+    .token.builtin { @apply --super-code-theme-token-builtin; }
+    .token.inserted { @apply --super-code-theme-token-inserted; }
+    .token.operator { @apply --super-code-theme-token-operator; }
+    .token.entity { @apply --super-code-theme-token-entity; }
+    .token.url { @apply --super-code-theme-token-url; }
+    .language-css .token.string { @apply --super-code-theme-token-string-css; }
+    .style .token.string { @apply --super-code-theme-token-string-style; }
+    .token.atrule { @apply --super-code-theme-token-atrule; }
+    .token.attr-value { @apply --super-code-theme-token-attr-value; }
+    .token.keyword { @apply --super-code-theme-token-keyword; }
+    .token.function { @apply --super-code-theme-token-function; }
+    .token.regex { @apply --super-code-theme-token-regex; }
+    .token.variable { @apply --super-code-theme-token-variable; }
+    .token.important { @apply --super-code-theme-token-important; }
+    .token.bold { @apply --super-code-theme-token-bold; }
+    .token.italic { @apply --super-code-theme-token-italic; }
+    .token.entity { @apply --super-code-theme-token-entity; }
+
+    /* line highlighting */
+    .line-highlight { @apply --super-code-theme-line-highlight; }
+
+    /* line numbers */
+    .line-numbers .line-numbers-rows { @apply --super-code-theme-line-numbers; }
+    .line-numbers-rows > span:before { @apply --super-code-theme-line-number; }
+  </style>
+
+  <style>
     /* overrides */
     pre[class*="language-"] {
       margin: 0;
     }
 
     /* custom */
-    .title-container {
+    .header {
       display: none;
       padding: .8em;
       background-color: var(--header-background-color, #399c42);
@@ -290,10 +369,10 @@
       background-image: var(--header-background-effect, linear-gradient(20deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.5) 100%));
     }
 
+    .header { @apply --super-code-theme-header; }
   </style>
 
-
-  <slot name="header"><div class="title-container"></div></slot>
+  <slot name="header"><div class="header"></div></slot>
   <pre id="mycodepre"><code id="mycode"></code></pre>
   <slot name="footer"></slot>
 

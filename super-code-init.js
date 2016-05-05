@@ -69,51 +69,6 @@
     xhr.send(null);
   }
 
-  // var languages = ['javascript', 'css', 'markup'];
-  // var basePrototype = Object.create(HTMLPreElement.prototype);
-  // var importDoc = (document._currentScript || document.currentScript).ownerDocument;
-  // var shadowDomSupported = !!Element.prototype.createShadowRoot;
-  // // if (!shadowDomSupported) {
-  // //   var templateLight = importDoc.querySelector('#template-light');
-  // //   var templateLightContent = document.importNode(templateLight.content, true);
-  // //   document.querySelector('head').appendChild(templateLightContent);
-  // // }
-  // languages.forEach(registerLanguage);
-  // function registerLanguage(alias) {
-  //     var prototype = Object.create(basePrototype);
-  //     prototype.createdCallback = function() {
-  //         var codeElement = createCodeElement.call(this, alias);
-  //         if (shadowDomSupported) {
-  //           createShadowRoot.call(this).appendChild(codeElement)
-  //         } else {
-  //           this.innerHTML = "";
-  //           this.appendChild(codeElement);
-  //         }
-  //         Prism.highlightElement(codeElement, false);
-  //     };
-  //     document.registerElement("lang-" + alias, {
-  //         prototype: prototype,
-  //         extends: 'pre'
-  //     });
-  // }
-  // function createCodeElement(alias) {
-  //     var codeElement = document.createElement('code');
-  //     codeElement.innerHTML = rtrim(this.innerHTML);
-  //     codeElement.classList.add('language-' + alias);
-  //     return codeElement;
-  // }
-  // function createShadowRoot() {
-  //     var preElement = document.createElement('pre');
-  //     var templateId = this.getAttribute("theme") === "dark" ? "#template-dark" : "#template-light";
-  //     var template = importDoc.querySelector(templateId);
-  //     var templateContent = document.importNode(template.content, true);
-  //     templateContent.appendChild(preElement);
-  //     this.createShadowRoot().appendChild(templateContent);
-  //     return preElement;
-  // }
-
-
-
 
   SuperCodeElement.createdCallback = function() {
     console.log('created', arguments);
@@ -123,11 +78,11 @@
 
     // import template into
     var clone = document.importNode(template.content, true);
-    var root = this.attachShadow({mode: 'open'});
+    var root = this.attachShadow({mode: 'closed'});
 
     root.appendChild(clone);
-    var myCodeEl = root.querySelector('#mycode');
-    var myPreEl = root.querySelector('#mycodepre');
+    var myPreEl = root.querySelector('pre');
+    var myCodeEl = myPreEl.querySelector('code');
     var headerEl = root.querySelector('.header');
 
     myCodeEl.className += ' language-' + this.getAttribute('language');

@@ -1,0 +1,126 @@
+<!-- <link rel="import" href="../launch-icon.svg"> -->
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<dom-module id='super-code-runnable'>
+  <template>
+
+    <style>
+      :host {
+        display: flex;
+      }
+      .panel {
+        overflow: scroll;
+        flex: 1;
+        transition: flex-grow 300ms;
+        position: relative;
+      }
+      #codePanel {
+      }
+      #runButton {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+      }
+      #displayPanel {
+        width: 0;
+        flex: 0.00000001;
+        border: 0;
+        background-color: white;
+      }
+
+      :host(.activated) #runButton {
+        display: none;
+      }
+      :host(.activated) .panel {
+      }
+      :host(.activated) #displayPanel {
+        flex: 1;
+      }
+    </style>
+
+    <!--
+      1. Hold either a SUPER-CODE or SUPER-CODE-GROUP element
+
+      2. Present a big RUN button
+
+      3. On press, open-right a frame:
+        - If SUPER-CODE & HTML: Display contents
+        - IF SUPER-CODE & JS: Run, Display Output
+        - IF SUPER-CODE & RUN-URL: Make ajax to run, Display response
+        - IF SUPER-CODE-GROUP & IS-RUNNABLE (HTML, JS, & CSS ONLY): Display and Run all
+    -->
+
+    <div id="codePanel" class="panel">
+      <content id="superCodeElement" select="super-code"></content>
+      <paper-fab mini id="runButton" src="play-icon.svg" title="heart eyes cat"></paper-fab>
+    </div>
+
+    <iframe id="displayPanel" class="panel" srcdoc=""></iframe>
+
+  </template>
+
+  <script>
+  Polymer({
+    is: 'super-code-runnable',
+    properties: {},
+
+    created: function() {
+      console.log(this.localName + '#' + this.id + ' was created');
+    },
+
+    ready: function() {
+      console.log(this.localName + '#' + this.id + ' has local DOM initialized');
+    },
+
+    attached: function() {
+      console.log(this.localName + '#' + this.id + ' was attached');
+    },
+
+    detached: function() {
+      console.log(this.localName + '#' + this.id + ' was detached');
+    },
+
+    attributeChanged: function(name, type) {
+      console.log(this.localName + '#' + this.id + ' attribute ' + name +
+        ' was changed to ' + this.getAttribute(name));
+    },
+
+    listeners: {
+      'runButton.tap': 'specialTap'
+    },
+
+    specialTap: function(e) {
+      this.toggleClass('activated', true);
+      let _log = console.log;
+      let _warn = console.warn;
+      let _error = console.error;
+      let styleSetup = "<style>body {font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; line-height: 1.5em; white-space: nowrap; font-size: 0.8em;}</style>";
+      let codeOutput = '';
+      let codeResult;
+      let codeToEval = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0].innerHTML;
+
+      console.log = function() {
+        var args = Array.prototype.slice.call(arguments);
+        codeOutput += args.join(' ') + '</br>';
+      };
+      console.warn = function() {
+        var args = Array.prototype.slice.call(arguments);
+        codeOutput += '<span style="color: orange;">[warn] ' + args.join(' ') + '</span></br>';
+      };
+      console.error = function() {
+        var args = Array.prototype.slice.call(arguments);
+        codeOutput += '<span style="color: red;">[error] ' + args.join(' ') + '</span></br>';
+      };
+      codeResult = eval(codeToEval);
+      console.log = _log;
+      console.warn = _warn;
+      console.error = _error;
+
+      this.$.displayPanel.srcdoc = styleSetup + codeOutput + codeOutput + codeOutput + '<span style="opacity: 0.4;"><span style="font-size: .7em; font-weight: bold;">></span> ' + codeResult + '</span>';
+
+      // setTimeout(() => this.$.displayPanel.contentWindow.scrollTo( 0, 999999 ), 1000);
+    }
+
+  });
+  </script>
+</dom-module>

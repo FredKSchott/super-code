@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>super-code demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script>
+      /* this script must run before Polymer is imported */
+      window.Polymer = {
+        dom: 'shadow',
+        lazyRegister: true
+      };
+    </script>
+
+    <link rel="import" href="bower_components/polymer/polymer.html">
+    <link rel="import" href="super-code.html">
+    <link rel="import" href="super-code-runnable/super-code-runnable.html">
+
+    <style>
+      body {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-size: 14px;
+        margin: 0;
+        padding: 24px;
+        /*background-color: #AAB;*/
+        background-image: linear-gradient(90deg, rgb(120,160,100) 27%, rgb(80, 120, 60) 100%);
+      }
+    </style>
+
+
+    <dom-module id='demo-runnable'>
+
+      <template>
+
+        <style>
+        </style>
+
+        <super-code-runnable>
+          <super-code language="js">function sum(x, y) {
+  console.log('Web ' + (x+y) + '.0');
+  console.warn('Oh wow this works???');
+  console.error('Im freaking out man...');
+  return 'joeblow';
+}
+sum(2, 1);</super-code>
+        </super-code-runnable>
+
+      </template>
+
+      <script>
+      Polymer({
+        is: 'demo-runnable',
+      });
+      </script>
+    </dom-module>
+
+  </head>
+
+  <body>
+    <demo-runnable></demo-runnable>
+  </body>
+
+</html>

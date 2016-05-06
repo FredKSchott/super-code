@@ -7,34 +7,27 @@
 <dom-module id='super-code-group'>
   <template>
 
-    <style is="custom-style">
-      paper-tabs, paper-toolbar {
-        background-color: var(--paper-blue-grey-900);
-      }
-      paper-tab {
-        color: #fff;
-      }
-    </style>
-
     <style include="iron-flex">
       :host {
         display: block;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-                    0 1px 5px 0 rgba(0, 0, 0, 0.12),
-                    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      }
+      paper-tabs,
+      paper-toolbar {
+        background-color: var(--super-code-tabs-background-color, --paper-blue-grey-900);
       }
       paper-tabs {
-        --paper-tabs-selection-bar-color: red;
+        --paper-tabs-selection-bar-color: var(--super-code-tabs-selection-bar-color, red);
         --paper-tabs-selection-bar: {
           height: 4px;
+          @apply(--super-code-tabs-selection-bar);
         };
       }
       paper-tab {
-        font-size: 16px;
-        --paper-tab-ink: #F55;
+        color: #fff;
+        --paper-tab-ink: var(--super-code-tabs-ink, #FFF);
+        @apply(--super-code-tab);
       }
       iron-pages {
-        background: white;
         width: 100%;
         height: 100%;
       }
@@ -78,7 +71,7 @@
       console.log(this._panels);
     },
     _getTabNameForPanel: function(panel) {
-      return panel.getAttribute('title') || panel.getAttribute('language');
+      return panel.getAttribute('title') || panel.getAttribute('language').toUpperCase();
     }
   });
   </script>

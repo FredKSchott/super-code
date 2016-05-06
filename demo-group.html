@@ -13,6 +13,7 @@
       };
     </script>
 
+    <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="import" href="super-code.html">
     <link rel="import" href="super-code-group/super-code-group.html">
 
@@ -25,38 +26,63 @@
         /*background-color: #AAB;*/
         background-image: linear-gradient(90deg, rgb(160,120,100) 27%, rgb(120, 80, 60) 100%);
       }
-      super-code-group {
-        margin-bottom: 2em;
-      }
-      super-code-group.customd {
-        --tabsxd-background-color: #EEE;
-        --paper-tab-ink: #F55;
-        --tabs-selection-bar-color: green;
-        --paper-tabs-selection-bar: {
-          height: 4px;
-        };
-      }
     </style>
+
+
+    <dom-module id='demo-group'>
+
+      <template>
+
+        <style>
+          super-code-group {
+            margin-bottom: 2em;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                        0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                        0 3px 1px -2px rgba(0, 0, 0, 0.2);
+            --super-code-tab: {
+              font-size: 16px;
+            };
+          }
+          super-code-group.customd {
+            --super-code-tabs-background-color: var(--paper-red-400);
+            --super-code-tabs-ink: #F55;
+            --super-code-tabs-selection-bar-color: var(--paper-red-200);
+            --super-code-tabs-selection-bar: {
+              height: 100% !important;
+            };
+          }
+        </style>
+
+        <super-code-group>
+          <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+          <super-code language="css" code="#myDiv { background-color: #AAA; color: #338; }"></super-code>
+          <super-code language="js">function sum(x, y) {
+  alert('Web ' + (x+y) + '.0');
+}
+sum(2, 1);</super-code>
+        </super-code-group>
+
+
+        <super-code-group class="customd">
+          <super-code language="javascript" title="source.js">function sum(x, y) {
+  alert('Web ' + (x+y) + '.0');
+}</super-code>
+          <super-code language="javascript" title="init.js">sum(2, 1);</super-code>
+        </super-code-group>
+
+      </template>
+
+      <script>
+      Polymer({
+        is: 'demo-group',
+      });
+      </script>
+    </dom-module>
 
   </head>
 
   <body>
-    <super-code-group>
-      <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
-      <super-code language="css" code="#myDiv { background-color: #AAA; color: #338; }"></super-code>
-      <super-code language="javascript">function sum(x, y) {
-  alert('Web ' + (x+y) + '.0');
-}
-sum(2, 1);</super-code>
-    </super-code-group>
-
-
-    <super-code-group class="customd">
-      <super-code language="javascript" title="source.js">function sum(x, y) {
-  alert('Web ' + (x+y) + '.0');
-}</super-code>
-      <super-code language="javascript" title="init.js">sum(2, 1);</super-code>
-    </super-code-group>
+    <demo-group></demo-group>
   </body>
 
 </html>

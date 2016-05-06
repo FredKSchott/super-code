@@ -107,7 +107,7 @@
       let _log = console.log;
       let _warn = console.warn;
       let _error = console.error;
-      let styleSetup = "<style>body {font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; line-height: 1.5em; white-space: nowrap; font-size: 0.8em;}</style>";
+      let styleSetup = "font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; line-height: 1.5em; white-space: nowrap;";
       let codeOutput = '';
       let codeResult;
       let codeToEval = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0].innerHTML;
@@ -129,18 +129,17 @@
       console.warn = _warn;
       console.error = _error;
 
-      let iframe = document.createElement('iframe');
-      iframe.id = 'displayPanel';
-      iframe.className = 'panel';
-      let html = styleSetup + codeOutput + '<span style="opacity: 0.4;"><span style="font-size: .7em; font-weight: bold;">></span> ' + codeResult + '</span>';
-      this.root.appendChild(iframe);
-
-      iframe.contentWindow.document.open();
-      iframe.contentWindow.document.write(html);
-      iframe.contentWindow.document.close();
+      let displayPanelEl = document.createElement('div');
+      displayPanelEl.id = 'displayPanel';
+      displayPanelEl.className = 'panel';
+      displayPanelEl.style.cssText = styleSetup;
+      displayPanelEl.style.height = this.clientHeight + 'px';
+      let html = codeOutput + codeOutput + codeOutput+ codeOutput+codeOutput+codeOutput+'<span style="opacity: 0.4;"><span style="font-size: .7em; font-weight: bold;">></span> ' + codeResult + '</span>';
+      displayPanelEl.innerHTML = html;
+      this.root.appendChild(displayPanelEl);
 
       setTimeout(() => {
-        iframe.contentWindow.scrollTo( 0, 999999 );
+        displayPanelEl.scrollTo( 0, 999999 );
       }, 1);
     },
 
@@ -148,15 +147,15 @@
       let codeElement = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0];
       let htmlToDisplay = codeElement.innerHTML || htmlEncode(codeElement.getAttribute('code'));
 
-      let iframe = document.createElement('iframe');
-      iframe.id = 'displayPanel';
-      iframe.className = 'panel';
-      iframe.height = this.clientHeight;
-      this.root.appendChild(iframe);
+      let displayPanelIFrame = document.createElement('iframe');
+      displayPanelIFrame.id = 'displayPanel';
+      displayPanelIFrame.className = 'panel';
+      displayPanelIFrame.height = this.clientHeight;
+      this.root.appendChild(displayPanelIFrame);
 
-      iframe.contentWindow.document.open();
-      iframe.contentWindow.document.write(htmlToDisplay);
-      iframe.contentWindow.document.close();
+      displayPanelIFrame.contentWindow.document.open();
+      displayPanelIFrame.contentWindow.document.write(htmlToDisplay);
+      displayPanelIFrame.contentWindow.document.close();
     },
 
     specialTap: function(e) {
@@ -165,6 +164,8 @@
         this.generateJSOutput();
       } else if (language === "html") {
         this.generateHTMLOutput();
+      } else if (this.getAttribute('run-remote')) {
+
       }
 
       setTimeout(() => {

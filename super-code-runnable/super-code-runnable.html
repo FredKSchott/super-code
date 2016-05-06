@@ -45,17 +45,15 @@
 
       3. On press, open-right a frame:
         - If SUPER-CODE & HTML: Display contents
-        - IF SUPER-CODE & JS: Run, Display Output
+        - √ IF SUPER-CODE & JS: Run, Display Output
         - IF SUPER-CODE & RUN-URL: Make ajax to run, Display response
         - IF SUPER-CODE-GROUP & IS-RUNNABLE (HTML, JS, & CSS ONLY): Display and Run all
     -->
 
     <div id="codePanel" class="panel">
       <content id="superCodeElement" select="super-code"></content>
-      <paper-fab mini id="runButton" src="play-icon.svg" title="heart eyes cat"></paper-fab>
+      <paper-fab id="runButton" src="play-icon.svg" title="heart eyes cat"></paper-fab>
     </div>
-
-    <iframe id="displayPanel" class="panel" srcdoc=""></iframe>
 
   </template>
 
@@ -89,8 +87,7 @@
       'runButton.tap': 'specialTap'
     },
 
-    specialTap: function(e) {
-      this.toggleClass('activated', true);
+    generateJSOutput: function() {
       let _log = console.log;
       let _warn = console.warn;
       let _error = console.error;
@@ -116,10 +113,29 @@
       console.warn = _warn;
       console.error = _error;
 
-      this.$.displayPanel.srcdoc = styleSetup + codeOutput + codeOutput + codeOutput + '<span style="opacity: 0.4;"><span style="font-size: .7em; font-weight: bold;">></span> ' + codeResult + '</span>';
+      let iframe = document.createElement('iframe');
+      iframe.id = 'displayPanel';
+      iframe.className = 'panel';
+      let html = styleSetup + codeOutput + '<span style="opacity: 0.4;"><span style="font-size: .7em; font-weight: bold;">></span> ' + codeResult + '</span>';
+      this.root.appendChild(iframe);
 
-      // setTimeout(() => this.$.displayPanel.contentWindow.scrollTo( 0, 999999 ), 1000);
-    }
+      iframe.contentWindow.document.open();
+      iframe.contentWindow.document.write(html);
+      iframe.contentWindow.document.close();
+
+      setTimeout(() => {
+        this.toggleClass('activated', true);
+        iframe.contentWindow.scrollTo( 0, 999999 );
+      }, 0);
+    },
+
+    generateHTMLOutput: function() {
+      // todo
+    },
+
+    specialTap: function(e) {
+      this.generateJSOutput();
+    },
 
   });
   </script>

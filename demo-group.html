@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>super-code demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script>
+      /* this script must run before Polymer is imported */
+      window.Polymer = {
+        dom: 'shadow',
+        lazyRegister: true
+      };
+    </script>
+
+    <link rel="import" href="super-code.html">
+    <link rel="import" href="super-code-group/super-code-group.html">
+
+    <style>
+      body {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-size: 14px;
+        margin: 0;
+        padding: 24px;
+        /*background-color: #AAB;*/
+        background-image: linear-gradient(90deg, rgb(160,120,100) 27%, rgb(120, 80, 60) 100%);
+      }
+      super-code-group {
+        margin-bottom: 2em;
+      }
+      super-code-group.customd {
+        --tabsxd-background-color: #EEE;
+        --paper-tab-ink: #F55;
+        --tabs-selection-bar-color: green;
+        --paper-tabs-selection-bar: {
+          height: 4px;
+        };
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <super-code-group>
+      <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+      <super-code language="css" code="#myDiv { background-color: #AAA; color: #338; }"></super-code>
+      <super-code language="javascript">function sum(x, y) {
+  alert('Web ' + (x+y) + '.0');
+}
+sum(2, 1);</super-code>
+    </super-code-group>
+
+
+    <super-code-group class="customd">
+      <super-code language="javascript" title="source.js">function sum(x, y) {
+  alert('Web ' + (x+y) + '.0');
+}</super-code>
+      <super-code language="javascript" title="init.js">sum(2, 1);</super-code>
+    </super-code-group>
+  </body>
+
+</html>

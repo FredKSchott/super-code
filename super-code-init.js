@@ -104,6 +104,8 @@
       headerEl.style.backgroundColor = this.getAttribute('header-color');
     }
 
+    this.hideHeader = () => headerEl.style.display = 'none';
+
     function paintElement() {
       Prism.highlightElement(myCodeEl, false);
     }
@@ -125,7 +127,12 @@
 
   SuperCodeElement.attachedCallback = () => console.log('attached', arguments);
   SuperCodeElement.detachedCallback = () => console.log('detached', arguments);
-  SuperCodeElement.attributeChangedCallback = () => console.log('attributeChanged', arguments);
+  SuperCodeElement.attributeChangedCallback = function(attr, oldVal, newVal) {
+    console.log('attributeChanged', this, arguments);
+    if (attr === 'hide-header' && newVal) {
+      this.hideHeader();
+    }
+  };
 
   document.registerElement('super-code', {
     prototype: SuperCodeElement

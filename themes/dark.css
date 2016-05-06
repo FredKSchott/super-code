@@ -46,12 +46,15 @@
 		hyphens: none;
 
 
-		background: hsl(30, 20%, 25%);
+		/*background: hsl(30, 20%, 25%);*/
+		border: .3em solid #631;
+		background-color: #210;
+		background: url(http://www.myfreetextures.com/wp-content/uploads/2014/10/seamless-wood-texture-1-494x494.jpg);
 
 
 		margin: .5em 0;
 		overflow: auto;
-		border: .3em solid hsl(30, 20%, 40%);
+		/*border: .3em solid hsl(30, 20%, 40%);*/
 		border-radius: .5em;
 		box-shadow: 1px 1px .5em black inset;
 	};
@@ -205,11 +208,11 @@
 	};
 
 	--super-code-theme-line-numbers: {
-		border-right-color: rgba(0,0,0,.5);
+		border-right-color: rgba(160,160,160,.3);
 		border-right-width: 2px;
 	};
 
 	--super-code-theme-line-number: {
-		color: #999;
+		color: rgba(160,160,160,.8);
 	};
 }

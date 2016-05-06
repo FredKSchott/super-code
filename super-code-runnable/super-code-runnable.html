@@ -25,6 +25,7 @@
         width: 0;
         flex: 0.00000001;
         border: 0;
+        min-height: 100%;
         background-color: white;
       }
 
@@ -36,7 +37,7 @@
       :host(.activated) #displayPanel {
         flex: 1;
       }
-    </style>
+       </style>
 
     <!--
       1. Hold either a SUPER-CODE or SUPER-CODE-GROUP element
@@ -44,10 +45,15 @@
       2. Present a big RUN button
 
       3. On press, open-right a frame:
-        - If SUPER-CODE & HTML: Display contents
+        - √ If SUPER-CODE & HTML: Display contents
         - √ IF SUPER-CODE & JS: Run, Display Output
         - IF SUPER-CODE & RUN-URL: Make ajax to run, Display response
         - IF SUPER-CODE-GROUP & IS-RUNNABLE (HTML, JS, & CSS ONLY): Display and Run all
+
+      4. Respect attributes
+        - sandbox: runs JS in a sandbox, defaults true
+        -
+
     -->
 
     <div id="codePanel" class="panel">
@@ -58,6 +64,16 @@
   </template>
 
   <script>
+    // I needed the opposite function today, so adding here too:
+    function htmlEncode(value){
+        return String(value)
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
+    }
+
   Polymer({
     is: 'super-code-runnable',
     properties: {},
@@ -124,17 +140,36 @@
       iframe.contentWindow.document.close();
 
       setTimeout(() => {
-        this.toggleClass('activated', true);
         iframe.contentWindow.scrollTo( 0, 999999 );
-      }, 0);
+      }, 1);
     },
 
     generateHTMLOutput: function() {
-      // todo
+      let codeElement = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0];
+      let htmlToDisplay = codeElement.innerHTML || htmlEncode(codeElement.getAttribute('code'));
+
+      let iframe = document.createElement('iframe');
+      iframe.id = 'displayPanel';
+      iframe.className = 'panel';
+      iframe.height = this.clientHeight;
+      this.root.appendChild(iframe);
+
+      iframe.contentWindow.document.open();
+      iframe.contentWindow.document.write(htmlToDisplay);
+      iframe.contentWindow.document.close();
     },
 
     specialTap: function(e) {
-      this.generateJSOutput();
+      let language = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0].getAttribute('language');
+      if (language === "js" || language === "javascript") {
+        this.generateJSOutput();
+      } else if (language === "html") {
+        this.generateHTMLOutput();
+      }
+
+      setTimeout(() => {
+        this.toggleClass('activated', true);
+      }, 0);
     },
 
   });

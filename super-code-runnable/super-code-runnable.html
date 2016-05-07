@@ -14,8 +14,6 @@
         transition: flex-grow 300ms;
         position: relative;
       }
-      #codePanel {
-      }
       #runButton {
         position: absolute;
         bottom: 10px;
@@ -27,6 +25,28 @@
         border: 0;
         min-height: 100%;
         background-color: white;
+        box-shadow: -10px 0px 10px 0px rgba(0,0,0,0.19);
+        box-sizing: border-box;
+      }
+
+      #displayPanel.console {
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        line-height: 1.5em;
+        white-space: nowrap;
+        padding: 10px;
+        background-color: #FFF;
+      }
+
+      #displayPanel.console .console-output.level-warn {
+        color: #DD8811;
+      }
+
+      #displayPanel.console .console-output.level-error {
+        color: #C11;
+      }
+
+      #displayPanel.console .console-result {
+        opacity: 0.5;
       }
 
       :host(.activated) #runButton {
@@ -47,7 +67,7 @@
       3. On press, open-right a frame:
         - √ If SUPER-CODE & HTML: Display contents
         - √ IF SUPER-CODE & JS: Run, Display Output
-        - IF SUPER-CODE & RUN-URL: Make ajax to run, Display response
+        - √ IF SUPER-CODE & RUN-URL: Make ajax to run, Display response
         - IF SUPER-CODE-GROUP & IS-RUNNABLE (HTML, JS, & CSS ONLY): Display and Run all
 
       4. Respect attributes
@@ -104,38 +124,73 @@
     },
 
     generateJSOutput: function() {
-      let _log = console.log;
-      let _warn = console.warn;
-      let _error = console.error;
-      let styleSetup = "font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; line-height: 1.5em; white-space: nowrap;";
       let codeOutput = '';
       let codeResult;
       let codeToEval = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0].innerHTML;
 
-      console.log = function() {
-        var args = Array.prototype.slice.call(arguments);
-        codeOutput += args.join(' ') + '</br>';
-      };
-      console.warn = function() {
-        var args = Array.prototype.slice.call(arguments);
-        codeOutput += '<span style="color: orange;">[warn] ' + args.join(' ') + '</span></br>';
-      };
-      console.error = function() {
-        var args = Array.prototype.slice.call(arguments);
-        codeOutput += '<span style="color: red;">[error] ' + args.join(' ') + '</span></br>';
-      };
-      codeResult = eval(codeToEval);
-      console.log = _log;
-      console.warn = _warn;
-      console.error = _error;
+
+      if (typeof this.getAttribute('sandbox-js') === 'string' && this.getAttribute('sandbox-js').toLowerCase() === 'false') {
+        let _log = console.log;
+        let _warn = console.warn;
+        let _error = console.error;
+
+        console.log = function() {
+          var args = Array.prototype.slice.call(arguments);
+          codeOutput += '<div class="console-output">' + args.join(' ') + '</div>';
+        };
+        console.warn = function() {
+          var args = Array.prototype.slice.call(arguments);
+          codeOutput += '<div class="console-output level-warn">[warn] ' + args.join(' ') + '</div></br>';
+        };
+        console.error = function() {
+          var args = Array.prototype.slice.call(arguments);
+          codeOutput += '<div class="console-output level-error">[error] ' + args.join(' ') + '</div></br>';
+        };
+
+        codeResult = eval(codeToEval);
+
+        console.log = _log;
+        console.warn = _warn;
+        console.error = _error;
+      } else {
+        let sandboxIFrame = document.createElement('iframe');
+        this.appendChild(sandboxIFrame);
+
+        let _log = sandboxIFrame.contentWindow.console.log;
+        let _warn = sandboxIFrame.contentWindow.console.warn;
+        let _error = sandboxIFrame.contentWindow.console.error;
+
+        sandboxIFrame.contentWindow.console.log = function() {
+          var args = Array.prototype.slice.call(arguments);
+          codeOutput += '<div class="console-output">' + args.join(' ') + '</div>';
+        };
+        sandboxIFrame.contentWindow.console.warn = function() {
+          var args = Array.prototype.slice.call(arguments);
+          codeOutput += '<div class="console-output level-warn">[warn] ' + args.join(' ') + '</div>';
+        };
+        sandboxIFrame.contentWindow.console.error = function() {
+          var args = Array.prototype.slice.call(arguments);
+          codeOutput += '<div class="console-output level-error">[error] ' + args.join(' ') + '</div>';
+        };
+
+        codeResult = sandboxIFrame.contentWindow.eval(codeToEval);
+
+        sandboxIFrame.contentWindow.console.log = _log;
+        sandboxIFrame.contentWindow.console.warn = _warn;
+        sandboxIFrame.contentWindow.console.error = _error;
+      }
+
 
       let displayPanelEl = document.createElement('div');
       displayPanelEl.id = 'displayPanel';
-      displayPanelEl.className = 'panel';
-      displayPanelEl.style.cssText = styleSetup;
+      displayPanelEl.className = 'panel console';
       displayPanelEl.style.height = this.clientHeight + 'px';
-      let html = codeOutput + codeOutput + codeOutput+ codeOutput+codeOutput+codeOutput+'<span style="opacity: 0.4;"><span style="font-size: .7em; font-weight: bold;">></span> ' + codeResult + '</span>';
-      displayPanelEl.innerHTML = html;
+      displayPanelEl.innerHTML = codeOutput;
+
+      if (this.getAttribute('display-result')) {
+        displayPanelEl.innerHTML += '<div class="console-result"><span style="font-size: .7em; font-weight: bold;">></span> ' + codeResult + '</div>';
+      }
+
       this.root.appendChild(displayPanelEl);
 
       setTimeout(() => {
@@ -145,7 +200,7 @@
 
     generateHTMLOutput: function() {
       let codeElement = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0];
-      let htmlToDisplay = codeElement.innerHTML || htmlEncode(codeElement.getAttribute('code'));
+      let htmlToDisplay = codeElement.code;
 
       let displayPanelIFrame = document.createElement('iframe');
       displayPanelIFrame.id = 'displayPanel';
@@ -158,6 +213,37 @@
       displayPanelIFrame.contentWindow.document.close();
     },
 
+    generateSpecialOutput: function() {
+      let displayPanelEl = document.createElement('div');
+      displayPanelEl.id = 'displayPanel';
+      displayPanelEl.className = 'panel console';
+      displayPanelEl.style.height = this.clientHeight + 'px';
+      displayPanelEl.textContent = 'Loading...';
+      this.root.appendChild(displayPanelEl);
+
+      let xhr = new XMLHttpRequest();
+      let codeElement = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0];
+      let codeToRun = codeElement.innerHTML || codeElement.getAttribute('code');
+      xhr.open('POST', this.getAttribute('run-remote'), true);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+
+          if (xhr.status < 400 && xhr.responseText) {
+            displayPanelEl.textContent = xhr.responseText;
+          }
+          else if (xhr.status >= 400) {
+            code.textContent = '✖ Error ' + xhr.status + ' while running file: ' + xhr.statusText;
+          }
+          else {
+            code.textContent = '✖ Error: File does not exist or is empty';
+          }
+        }
+      };
+
+      xhr.send(codeToRun);
+    },
+
     specialTap: function(e) {
       let language = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0].getAttribute('language');
       if (language === "js" || language === "javascript") {
@@ -165,7 +251,7 @@
       } else if (language === "html") {
         this.generateHTMLOutput();
       } else if (this.getAttribute('run-remote')) {
-
+        this.generateSpecialOutput();
       }
 
       setTimeout(() => {

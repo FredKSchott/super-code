@@ -10,6 +10,16 @@
       return stringToTrim.replace(/\s+$/,'');
   }
 
+  // I needed the opposite function today, so adding here too:
+  function htmlEncode(value){
+      return String(value)
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'")
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&');
+  }
+
   function loadCodeAjax(pre, callback) {
 
     var Extensions = {
@@ -78,6 +88,7 @@
 
     // import template into
     var clone = document.importNode(template.content, true);
+    var self = this;
     var root = this.attachShadow({mode: 'closed'});
 
     root.appendChild(clone);
@@ -107,6 +118,7 @@
     this.hideHeader = () => headerEl.style.display = 'none';
 
     function paintElement() {
+      self.code = htmlEncode(myCodeEl.innerHTML);
       Prism.highlightElement(myCodeEl, false);
     }
 

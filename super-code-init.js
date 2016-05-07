@@ -20,6 +20,16 @@
           .replace(/&amp;/g, '&');
   }
 
+  // I needed the opposite function today, so adding here too:
+  function htmlDecode(value){
+      return String(value)
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'")
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&');
+  }
+
   function loadCodeAjax(pre, callback) {
 
     var Extensions = {
@@ -130,6 +140,8 @@
 
     if (this.getAttribute('code')) {
       myCodeEl.innerHTML = this.getAttribute('code');
+    } else if (this.children[0] instanceof HTMLTemplateElement) {
+      myCodeEl.textContent = this.children[0].innerHTML;
     } else {
       myCodeEl.innerHTML = this.innerHTML;
     }

@@ -19,6 +19,7 @@
         bottom: 10px;
         right: 10px;
       }
+
       #displayPanel {
         width: 0;
         flex: 0.00000001;
@@ -77,7 +78,8 @@
     -->
 
     <div id="codePanel" class="panel">
-      <content id="superCodeElement" select="super-code"></content>
+      <content id="superCodeGroupContent" select="super-code-group"></content>
+      <content id="superCodeContent" select="super-code"></content>
       <paper-fab id="runButton" src="play-icon.svg" title="heart eyes cat"></paper-fab>
     </div>
 
@@ -126,7 +128,7 @@
     generateJSOutput: function() {
       let codeOutput = '';
       let codeResult;
-      let codeToEval = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0].innerHTML;
+      let codeToEval = Polymer.dom(this.$.superCodeContent).getDistributedNodes()[0].innerHTML;
 
 
       if (typeof this.getAttribute('sandbox-js') === 'string' && this.getAttribute('sandbox-js').toLowerCase() === 'false') {
@@ -198,8 +200,28 @@
       }, 1);
     },
 
+    generateGroupOutput: function() {
+      let codeElement = Polymer.dom(this.$.superCodeGroupContent).getDistributedNodes()[0];
+      let codeGrouped = {};
+      for (panel of codeElement._panels) {
+        codeGrouped[panel.getAttribute('language')] = codeGrouped[panel.getAttribute('language')] || [];
+        codeGrouped[panel.getAttribute('language')].push(panel.code);
+      }
+      let htmlToDisplay = '<html><head><style>' + codeGrouped.css.join(' ') + '</style><head><body>' + codeGrouped.html.join(' ') + '<script>' + codeGrouped.js.join(' ') + '\<\/script\></body></html>';
+
+      let displayPanelIFrame = document.createElement('iframe');
+      displayPanelIFrame.id = 'displayPanel';
+      displayPanelIFrame.className = 'panel';
+      displayPanelIFrame.height = this.clientHeight;
+      this.root.appendChild(displayPanelIFrame);
+
+      displayPanelIFrame.contentWindow.document.open();
+      displayPanelIFrame.contentWindow.document.write(htmlToDisplay);
+      displayPanelIFrame.contentWindow.document.close();
+    },
+
     generateHTMLOutput: function() {
-      let codeElement = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0];
+      let codeElement = Polymer.dom(this.$.superCodeContent).getDistributedNodes()[0];
       let htmlToDisplay = codeElement.code;
 
       let displayPanelIFrame = document.createElement('iframe');
@@ -222,7 +244,7 @@
       this.root.appendChild(displayPanelEl);
 
       let xhr = new XMLHttpRequest();
-      let codeElement = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0];
+      let codeElement = Polymer.dom(this.$.superCodeContent).getDistributedNodes()[0];
       let codeToRun = codeElement.innerHTML || codeElement.getAttribute('code');
       xhr.open('POST', this.getAttribute('run-remote'), true);
 
@@ -245,13 +267,20 @@
     },
 
     specialTap: function(e) {
-      let language = Polymer.dom(this.$.superCodeElement).getDistributedNodes()[0].getAttribute('language');
-      if (language === "js" || language === "javascript") {
-        this.generateJSOutput();
-      } else if (language === "html") {
-        this.generateHTMLOutput();
-      } else if (this.getAttribute('run-remote')) {
-        this.generateSpecialOutput();
+      let singleEl = Polymer.dom(this.$.superCodeContent).getDistributedNodes()[0];
+      let groupEl = Polymer.dom(this.$.superCodeGroupContent).getDistributedNodes()[0];
+
+      if (groupEl) {
+        this.generateGroupOutput();
+      } else {
+        let language = singleEl.getAttribute('language');
+        if (language === "js" || language === "javascript") {
+          this.generateJSOutput();
+        } else if (language === "html") {
+          this.generateHTMLOutput();
+        } else if (this.getAttribute('run-remote')) {
+          this.generateSpecialOutput();
+        }
       }
 
       setTimeout(() => {

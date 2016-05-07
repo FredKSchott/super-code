@@ -15,6 +15,7 @@
 
     <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="import" href="super-code.html">
+    <link rel="import" href="super-code-group/super-code-group.html">
     <link rel="import" href="super-code-runnable/super-code-runnable.html">
 
     <style>
@@ -64,6 +65,18 @@ sum(1,2);</super-code>
         <super-code-runnable run-remote="/">
           <super-code language="php" code="$private_id = session_id();"></super-code>
         </super-code-runnable>
+
+        <super-code-runnable>
+          <super-code-group>
+            <!-- For some reason templates don't work here, Polymer bug? -->
+            <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+            <super-code language="css" code="#myDiv { background-color: #FA0; color: #338; }"></super-code>
+            <super-code language="js">function sum(x, y) {
+    window.myDiv.innerHTML = ('Web ' + (x+y) + '.0');
+  }
+  sum(2, 1);</super-code>
+          </super-code-group>
+        <super-code-runnable>
 
       </template>
 

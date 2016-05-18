@@ -4,379 +4,385 @@
 <script src="../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"></script>
 <script src="../node_modules/prismjs/plugins/file-highlight/prism-file-highlight.js"></script>
 
-<template id="t">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 
-  <style>
-    /**
-     * prism.js default theme for JavaScript, CSS and HTML
-     * Based on dabblet (http://dabblet.com)
-     * @author Lea Verou
-     */
-    code[class*="language-"],
-    pre[class*="language-"] {
-      color: black;
-      background: none;
-      text-shadow: 0 1px white;
-      font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-      direction: ltr;
-      text-align: left;
-      white-space: pre;
-      word-spacing: normal;
-      word-break: normal;
-      word-wrap: normal;
-      line-height: 1.5;
+<dom-module id='super-code'>
+  <template id="t">
 
-      -moz-tab-size: 4;
-      -o-tab-size: 4;
-      tab-size: 4;
-
-      -webkit-hyphens: none;
-      -moz-hyphens: none;
-      -ms-hyphens: none;
-      hyphens: none;
-    }
-
-    pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
-    code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
-      text-shadow: none;
-      background: #b3d4fc;
-    }
-
-    pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
-    code[class*="language-"]::selection, code[class*="language-"] ::selection {
-      text-shadow: none;
-      background: #b3d4fc;
-    }
-
-    @media print {
+    <style>
+      /**
+       * prism.js default theme for JavaScript, CSS and HTML
+       * Based on dabblet (http://dabblet.com)
+       * @author Lea Verou
+       */
       code[class*="language-"],
       pre[class*="language-"] {
+        color: black;
+        background: none;
+        text-shadow: 0 1px white;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        direction: ltr;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.5;
+
+        -moz-tab-size: 4;
+        -o-tab-size: 4;
+        tab-size: 4;
+
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+
+      pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+      code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
         text-shadow: none;
+        background: #b3d4fc;
       }
-    }
 
-    /* Code blocks */
-    pre[class*="language-"] {
-      padding: 1em;
-      margin: .5em 0;
-      overflow: auto;
-    }
+      pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+      code[class*="language-"]::selection, code[class*="language-"] ::selection {
+        text-shadow: none;
+        background: #b3d4fc;
+      }
 
-    :not(pre) > code[class*="language-"],
-    pre[class*="language-"] {
-      background: #f5f2f0;
-    }
+      @media print {
+        code[class*="language-"],
+        pre[class*="language-"] {
+          text-shadow: none;
+        }
+      }
 
-    /* Inline code */
-    :not(pre) > code[class*="language-"] {
-      padding: .1em;
-      border-radius: .3em;
-      white-space: normal;
-    }
+      /* Code blocks */
+      pre[class*="language-"] {
+        padding: 1em;
+        margin: .5em 0;
+        overflow: auto;
+      }
 
-    .token.comment,
-    .token.prolog,
-    .token.doctype,
-    .token.cdata {
-      color: slategray;
-    }
+      :not(pre) > code[class*="language-"],
+      pre[class*="language-"] {
+        background: #f5f2f0;
+      }
 
-    .token.punctuation {
-      color: #999;
-    }
+      /* Inline code */
+      :not(pre) > code[class*="language-"] {
+        padding: .1em;
+        border-radius: .3em;
+        white-space: normal;
+      }
 
-    .namespace {
-      opacity: .7;
-    }
+      .token.comment,
+      .token.prolog,
+      .token.doctype,
+      .token.cdata {
+        color: slategray;
+      }
 
-    .token.property,
-    .token.tag,
-    .token.boolean,
-    .token.number,
-    .token.constant,
-    .token.symbol,
-    .token.deleted {
-      color: #905;
-    }
+      .token.punctuation {
+        color: #999;
+      }
 
-    .token.selector,
-    .token.attr-name,
-    .token.string,
-    .token.char,
-    .token.builtin,
-    .token.inserted {
-      color: #690;
-    }
+      .namespace {
+        opacity: .7;
+      }
 
-    .token.operator,
-    .token.entity,
-    .token.url,
-    .language-css .token.string,
-    .style .token.string {
-      color: #a67f59;
-      background: hsla(0, 0%, 100%, .5);
-    }
+      .token.property,
+      .token.tag,
+      .token.boolean,
+      .token.number,
+      .token.constant,
+      .token.symbol,
+      .token.deleted {
+        color: #905;
+      }
 
-    .token.atrule,
-    .token.attr-value,
-    .token.keyword {
-      color: #07a;
-    }
+      .token.selector,
+      .token.attr-name,
+      .token.string,
+      .token.char,
+      .token.builtin,
+      .token.inserted {
+        color: #690;
+      }
 
-    .token.function {
-      color: #DD4A68;
-    }
+      .token.operator,
+      .token.entity,
+      .token.url,
+      .language-css .token.string,
+      .style .token.string {
+        color: #a67f59;
+        background: hsla(0, 0%, 100%, .5);
+      }
 
-    .token.regex,
-    .token.important,
-    .token.variable {
-      color: #e90;
-    }
+      .token.atrule,
+      .token.attr-value,
+      .token.keyword {
+        color: #07a;
+      }
 
-    .token.important,
-    .token.bold {
-      font-weight: bold;
-    }
-    .token.italic {
-      font-style: italic;
-    }
+      .token.function {
+        color: #DD4A68;
+      }
 
-    .token.entity {
-      cursor: help;
-    }
+      .token.regex,
+      .token.important,
+      .token.variable {
+        color: #e90;
+      }
 
-  </style>
+      .token.important,
+      .token.bold {
+        font-weight: bold;
+      }
+      .token.italic {
+        font-style: italic;
+      }
 
-  <style type="text/css">
-  /* ../node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css */
-    pre[data-line] {
-      position: relative;
-      padding: 1em 0 1em 3em;
-    }
+      .token.entity {
+        cursor: help;
+      }
 
-    .line-highlight {
-      position: absolute;
-      left: 0;
-      right: 0;
-      padding: inherit 0;
-      margin-top: 1em; /* Same as .prism’s padding-top */
+    </style>
 
-      background: hsla(24, 20%, 50%,.08);
-      background: -moz-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
-      background: -webkit-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
-      background: -o-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
-      background: linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+    <style type="text/css">
+    /* ../node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css */
+      pre[data-line] {
+        position: relative;
+        padding: 1em 0 1em 3em;
+      }
 
-      pointer-events: none;
+      .line-highlight {
+        position: absolute;
+        left: 0;
+        right: 0;
+        padding: inherit 0;
+        margin-top: 1em; /* Same as .prism’s padding-top */
 
-      line-height: inherit;
-      white-space: pre;
-    }
+        background: hsla(24, 20%, 50%,.08);
+        background: -moz-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+        background: -webkit-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+        background: -o-linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+        background: linear-gradient(left, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
 
-    .line-highlight:before,
-    .line-highlight[data-end]:after {
-      content: attr(data-start);
-      position: absolute;
-      top: .4em;
-      left: .6em;
-      min-width: 1em;
-      padding: 0 .5em;
-      background-color: hsla(24, 20%, 50%,.4);
-      color: hsl(24, 20%, 95%);
-      font: bold 65%/1.5 sans-serif;
-      text-align: center;
-      vertical-align: .3em;
-      border-radius: 999px;
-      text-shadow: none;
-      box-shadow: 0 1px white;
-    }
+        pointer-events: none;
 
-    .line-highlight[data-end]:after {
-      content: attr(data-end);
-      top: auto;
-      bottom: .4em;
-    }
-  </style>
+        line-height: inherit;
+        white-space: pre;
+      }
 
-  <style type="text/css">
-  /* ../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css */
-    pre.line-numbers {
-      position: relative;
-      padding-left: 3.8em;
-      counter-reset: linenumber;
-    }
+      .line-highlight:before,
+      .line-highlight[data-end]:after {
+        content: attr(data-start);
+        position: absolute;
+        top: .4em;
+        left: .6em;
+        min-width: 1em;
+        padding: 0 .5em;
+        background-color: hsla(24, 20%, 50%,.4);
+        color: hsl(24, 20%, 95%);
+        font: bold 65%/1.5 sans-serif;
+        text-align: center;
+        vertical-align: .3em;
+        border-radius: 999px;
+        text-shadow: none;
+        box-shadow: 0 1px white;
+      }
 
-    pre.line-numbers > code {
-      position: relative;
-    }
+      .line-highlight[data-end]:after {
+        content: attr(data-end);
+        top: auto;
+        bottom: .4em;
+      }
+    </style>
 
-    .line-numbers .line-numbers-rows {
-      position: absolute;
-      pointer-events: none;
-      top: 0;
-      font-size: 100%;
-      left: -3.8em;
-      width: 3em; /* works for line-numbers below 1000 lines */
-      letter-spacing: -1px;
-      border-right: 1px solid #999;
+    <style type="text/css">
+    /* ../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css */
+      pre.line-numbers {
+        position: relative;
+        padding-left: 3.8em;
+        counter-reset: linenumber;
+      }
 
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+      pre.line-numbers > code {
+        position: relative;
+      }
 
-    }
+      .line-numbers .line-numbers-rows {
+        position: absolute;
+        pointer-events: none;
+        top: 0;
+        font-size: 100%;
+        left: -3.8em;
+        width: 3em; /* works for line-numbers below 1000 lines */
+        letter-spacing: -1px;
+        border-right: 1px solid #999;
 
-    .line-numbers-rows > span {
-      pointer-events: none;
-      display: block;
-      counter-increment: linenumber;
-    }
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
-    .line-numbers-rows > span:before {
-      content: counter(linenumber);
-      color: #999;
-      display: block;
-      padding-right: 0.8em;
-      text-align: right;
-    }
-  </style>
+      }
 
-  <style type="text/css">
-  /* ../node_modules/prismjs/plugins/show-language/prism-show-language.css */
-    div.prism-show-language {
-      position: relative;
-    }
+      .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+      }
 
-    div.prism-show-language > div.prism-show-language-label {
-      color: black;
-      background-color: #CFCFCF;
-      display: inline-block;
-      position: absolute;
-      bottom: auto;
-      left: auto;
-      top: 0;
-      right: 0;
-      width: auto;
-      height: auto;
-      font-size: 0.9em;
-      border-radius: 0 0 0 5px;
-      padding: 0 0.5em;
-      text-shadow: none;
-      z-index: 1;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-      -webkit-transform: none;
-      -moz-transform: none;
-      -ms-transform: none;
-      -o-transform: none;
-      transform: none;
-    }
-  </style>
+      .line-numbers-rows > span:before {
+        content: counter(linenumber);
+        color: #999;
+        display: block;
+        padding-right: 0.8em;
+        text-align: right;
+      }
+    </style>
 
-  <style>
-    /* theming */
+    <style type="text/css">
+    /* ../node_modules/prismjs/plugins/show-language/prism-show-language.css */
+      div.prism-show-language {
+        position: relative;
+      }
 
-    /**
-     * prism.js default theme for JavaScript, CSS and HTML
-     * Based on dabblet (http://dabblet.com)
-     * @author Lea Verou
-     */
-    code[class*="language-"] {
-      @apply --super-code-theme-code;
-    }
-    pre[class*="language-"] {
-      @apply --super-code-theme-pre;
-    }
+      div.prism-show-language > div.prism-show-language-label {
+        color: black;
+        background-color: #CFCFCF;
+        display: inline-block;
+        position: absolute;
+        bottom: auto;
+        left: auto;
+        top: 0;
+        right: 0;
+        width: auto;
+        height: auto;
+        font-size: 0.9em;
+        border-radius: 0 0 0 5px;
+        padding: 0 0.5em;
+        text-shadow: none;
+        z-index: 1;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        -webkit-transform: none;
+        -moz-transform: none;
+        -ms-transform: none;
+        -o-transform: none;
+        transform: none;
+      }
+    </style>
 
-    pre[class*="language-"]::selection,
-    pre[class*="language-"] ::selection {
-      @apply --super-code-theme- pre-selection;
-    }
+    <style>
+      /* theming */
 
-    code[class*="language-"]::selection,
-    code[class*="language-"] ::selection {
-      @apply --super-code-theme- code-selection;
-    }
-
-    :not(pre) > code[class*="language-"] {
-      @apply --super-code-theme-not-pre-code;
-    }
-
-    @media print {
-      pre[class*="language-"],
+      /**
+       * prism.js default theme for JavaScript, CSS and HTML
+       * Based on dabblet (http://dabblet.com)
+       * @author Lea Verou
+       */
       code[class*="language-"] {
-        @apply --super-code-theme-media-print;
+        @apply(--super-code-theme-code);
       }
-    }
+      pre[class*="language-"] {
+        @apply(--super-code-theme-pre);
+      }
 
-    .token.comment { @apply --super-code-theme-token-comment; }
-    .token.prolog { @apply --super-code-theme-token-prolog; }
-    .token.doctype { @apply --super-code-theme-token-doctype; }
-    .token.cdata { @apply --super-code-theme-token-cdata; }
-    .token.punctuation { @apply --super-code-theme-token-punctuation; }
-    .namespace { @apply --super-code-theme-namespace; }
-    .token.property { @apply --super-code-theme-token-property; }
-    .token.tag { @apply --super-code-theme-token-tag; }
-    .token.boolean { @apply --super-code-theme-token-boolean; }
-    .token.number { @apply --super-code-theme-token-number; }
-    .token.constant { @apply --super-code-theme-token-constant; }
-    .token.symbol { @apply --super-code-theme-token-symbol; }
-    .token.deleted { @apply --super-code-theme-token-deleted; }
-    .token.selector { @apply --super-code-theme-token-selector; }
-    .token.attr-name { @apply --super-code-theme-token-attr-name; }
-    .token.string { @apply --super-code-theme-token-string; }
-    .token.char { @apply --super-code-theme-token-char; }
-    .token.builtin { @apply --super-code-theme-token-builtin; }
-    .token.inserted { @apply --super-code-theme-token-inserted; }
-    .token.operator { @apply --super-code-theme-token-operator; }
-    .token.entity { @apply --super-code-theme-token-entity; }
-    .token.url { @apply --super-code-theme-token-url; }
-    .language-css .token.string { @apply --super-code-theme-token-string-css; }
-    .style .token.string { @apply --super-code-theme-token-string-style; }
-    .token.atrule { @apply --super-code-theme-token-atrule; }
-    .token.attr-value { @apply --super-code-theme-token-attr-value; }
-    .token.keyword { @apply --super-code-theme-token-keyword; }
-    .token.function { @apply --super-code-theme-token-function; }
-    .token.regex { @apply --super-code-theme-token-regex; }
-    .token.variable { @apply --super-code-theme-token-variable; }
-    .token.important { @apply --super-code-theme-token-important; }
-    .token.bold { @apply --super-code-theme-token-bold; }
-    .token.italic { @apply --super-code-theme-token-italic; }
-    .token.entity { @apply --super-code-theme-token-entity; }
+      pre[class*="language-"]::selection,
+      pre[class*="language-"] ::selection {
+        @apply(--super-code-theme-pre-selection);
+      }
 
-    /* line highlighting */
-    .line-highlight { @apply --super-code-theme-line-highlight; }
+      code[class*="language-"]::selection,
+      code[class*="language-"] ::selection {
+        @apply(--super-code-theme-code-selection);
+      }
 
-    /* line numbers */
-    .line-numbers .line-numbers-rows { @apply --super-code-theme-line-numbers; }
-    .line-numbers-rows > span:before { @apply --super-code-theme-line-number; }
-  </style>
+      :not(pre) > code[class*="language-"] {
+        @apply(--super-code-theme-not-pre-code);
+      }
 
-  <style>
-    /* overrides */
-    pre[class*="language-"] {
-      margin: 0;
-    }
+      @media print {
+        pre[class*="language-"],
+        code[class*="language-"] {
+          @apply(--super-code-theme-media-print);
+        }
+      }
 
-    /* custom */
-    .header {
-      display: none;
-      padding: .8em;
-      background-color: var(--header-background-color, #399c42);
-      color: var(--header-color, #fff);
-      background-image: var(--header-background-effect, linear-gradient(20deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.5) 100%));
-    }
+      .token.comment { @apply(--super-code-theme-token-comment); }
+      .token.prolog { @apply(--super-code-theme-token-prolog); }
+      .token.doctype { @apply(--super-code-theme-token-doctype); }
+      .token.cdata { @apply(--super-code-theme-token-cdata); }
+      .token.punctuation { @apply(--super-code-theme-token-punctuation); }
+      .namespace { @apply(--super-code-theme-namespace); }
+      .token.property { @apply(--super-code-theme-token-property); }
+      .token.tag { @apply(--super-code-theme-token-tag); }
+      .token.boolean { @apply(--super-code-theme-token-boolean); }
+      .token.number { @apply(--super-code-theme-token-number); }
+      .token.constant { @apply(--super-code-theme-token-constant); }
+      .token.symbol { @apply(--super-code-theme-token-symbol); }
+      .token.deleted { @apply(--super-code-theme-token-deleted); }
+      .token.selector { @apply(--super-code-theme-token-selector); }
+      .token.attr-name { @apply(--super-code-theme-token-attr-name); }
+      .token.string { @apply(--super-code-theme-token-string); }
+      .token.char { @apply(--super-code-theme-token-char); }
+      .token.builtin { @apply(--super-code-theme-token-builtin); }
+      .token.inserted { @apply(--super-code-theme-token-inserted); }
+      .token.operator { @apply(--super-code-theme-token-operator); }
+      .token.entity { @apply(--super-code-theme-token-entity); }
+      .token.url { @apply(--super-code-theme-token-url); }
+      .language-css .token.string { @apply(--super-code-theme-token-string-css); }
+      .style .token.string { @apply(--super-code-theme-token-string-style); }
+      .token.atrule { @apply(--super-code-theme-token-atrule); }
+      .token.attr-value { @apply(--super-code-theme-token-attr-value); }
+      .token.keyword { @apply(--super-code-theme-token-keyword); }
+      .token.function { @apply(--super-code-theme-token-function); }
+      .token.regex { @apply(--super-code-theme-token-regex); }
+      .token.variable { @apply(--super-code-theme-token-variable); }
+      .token.important { @apply(--super-code-theme-token-important); }
+      .token.bold { @apply(--super-code-theme-token-bold); }
+      .token.italic { @apply(--super-code-theme-token-italic); }
+      .token.entity { @apply(--super-code-theme-token-entity); }
 
-    .header { @apply --super-code-theme-header; }
-  </style>
+      /* line highlighting */
+      .line-highlight { @apply(--super-code-theme-line-highlight); }
 
-  <slot name="header"><div class="header"></div></slot>
-  <pre><code></code></pre>
-  <slot name="footer"></slot>
+      /* line numbers */
+      .line-numbers .line-numbers-rows { @apply(--super-code-theme-line-numbers); }
+      .line-numbers-rows > span:before { @apply(--super-code-theme-line-number); }
+    </style>
 
-</template>
+    <style>
+      /* overrides */
+      pre[class*="language-"] {
+        margin: 0;
+      }
 
-<script type="text/javascript" src="super-code.js"></script>
-<script src="prism-languages.min.js"></script>
+      /* custom */
+      :host .header {
+        display: none;
+        padding: .8em;
+        background-color: var(--header-background-color, #399c42);
+        color: var(--header-color, #fff);
+        background-image: var(--header-background-effect, linear-gradient(20deg, #399c42, #114C16));
+      }
+
+      .header { @apply(--super-code-theme-header); }
+    </style>
+
+    <content select=".header"><div class="header"></div></content>
+    <pre><code></code></pre>
+    <content select=".footer"></content>
+
+  </template>
+
+  <script type="text/javascript" src="super-code.js"></script>
+  <script src="prism-languages.min.js"></script>
+
+</dom-module>
+

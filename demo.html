@@ -4,11 +4,17 @@
     <title>super-code demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script>
+      /* this script must run before Polymer is imported */
+      window.Polymer = {
+        dom: 'shadow',
+        lazyRegister: true
+      };
+    </script>
 
 
-
-    <link rel="import" href="super-code/super-code.html">
-    <link rel="stylesheet" type="text/css" href="themes/dark.css">
+    <link rel="import" href="/super-code/super-code.html">
+    <link rel="import" href="/themes/dark.html">
 
     <style>
       body {
@@ -19,25 +25,26 @@
         /*background-color: #AAB;*/
         background-image: linear-gradient(90deg, rgb(100,140,150) 27%, rgb(80, 100, 120) 100%);
       }
-
-      super-code {
-        margin-bottom: 2em;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-      }
-
-      super-code.warning {
-        --header-background-color: #F75934;
-        --header-background-effect: none;
-        --header-color: white;
-      }
-
-      super-code.dark-theme {
-        @apply --super-code-theme-dark;
-      }
     </style>
 
-  </head>
-  <body>
+    <dom-module id='demo-app'>
+
+      <template>
+
+        <style include="dark-theme"></style>
+
+        <style is="custom-style">
+          super-code {
+            margin-bottom: 2em;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+          }
+
+          super-code.warning {
+            --header-background-color: #E27860;
+            --header-background-effect: linear-gradient(20deg, rgba(0,0,0,0), rgba(255,255,255,.5));
+            --header-color: #111;
+          }
+        </style>
 
       <super-code language="javascript" line-numbers="on" highlight-lines="2">function sum(x, y) {
   return x + y;
@@ -45,15 +52,13 @@
 
       <br>
 
-      <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+      <super-code language="html"><div id="myDiv">
+  Hello world!!!!#!11!!!!
+</div></super-code>
 
       <br>
 
-      <super-code language="html">
-        <template><div id="myDiv">
-  Hello world!!!!#!22!!!!
-</div></template>
-      </super-code>
+      <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!222!!!2!!&#10;&amp;lt;/div&amp;gt;"></super-code>
 
       <br>
 
@@ -65,18 +70,31 @@
 
       <br>
 
-      <super-code code-src="/node_modules/prismjs/bower.json" title="bower.json" highlight-lines="7">
-        <div slot="header" style="background-color: rgba(255,255,255,.4); font-family: 'Comic Sans MS'; padding: .4em; text-align: right; font-size: 24px;"><em>Comic Sans??? You know it!</em></div>
-        <div slot="footer" style="background-color: #111; color: #CCC; padding: .4em 1em; font-family: Monaco; font-size: 12px; ">And I'm a custom slot footer!</div>
+      <super-code code-src="/node_modules/prismjs/bower.json" title="bower.json" highlight-lines="7-10">
+        <div class="header" style="background-color: rgba(255,255,255,.4); font-family: 'Comic Sans MS'; padding: .4em; text-align: right;"><em>Loaded from the server AND custom header? You know it!</em></div>
+        <div class="footer" style="background-color: #111; color: #CCC; padding: .4em 1em; font-family: Monaco; font-size: 12px; ">And I'm a custom slot footer!</div>
       </super-code>
 
       <br>
 
-      <super-code class="dark-theme" language="javascript" title="custom-theme.js" hide-header="true" line-numbers="on" highlight-lines="2">// Is this code block custom hilighted? Why yes... yes it is.
+      <super-code theme="dark" language="javascript" title="DARK THEME" hide-header="true" line-numbers="on" highlight-lines="2">// Is this code block custom hilighted? Why yes... yes it is.
 function sum(x, y) {
   return x + y;
 }</super-code>
 
+      </template>
+
+      <script>
+      Polymer({
+        is: 'demo-app',
+      });
+      </script>
+    </dom-module>
+
+  </head>
+
+  <body>
+    <demo-app></demo-app>
   </body>
 
 </html>

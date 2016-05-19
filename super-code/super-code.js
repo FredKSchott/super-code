@@ -35,7 +35,7 @@ function loadCodeAjax(pre, callback) {
     'psm1': 'powershell'
   };
 
-  var src = pre.getAttribute('data-src');
+  var src = pre.dataset.src;
   var code = pre.querySelector('code');
 
   var language, parent = pre;
@@ -86,7 +86,15 @@ function loadCodeAjax(pre, callback) {
 
 Polymer({
   is: 'super-code',
-  properties: {},
+
+  properties: {
+    'language': String,
+    'lineNumbers': Boolean,
+    'highlightLines': String,
+    'title': String,
+    'code': String,
+    'codeSrc': String,
+  },
 
   created: function() {
     console.log(this.localName + '#' + this.id + ' was created');
@@ -101,23 +109,19 @@ Polymer({
     var headerEl = this.$$('.header');
     console.log(myPreEl, myCodeEl, headerEl);
 
-    myCodeEl.className += ' language-' + this.getAttribute('language');
+    myCodeEl.className += ' language-' + this.language;
 
-    if (this.getAttribute('line-numbers')) {
+    if (this.lineNumbers) {
       myPreEl.className += ' line-numbers';
     }
 
-    if (this.getAttribute('highlight-lines')) {
-      myPreEl.dataset.line = this.getAttribute('highlight-lines');
+    if (this.highlightLines) {
+      myPreEl.dataset.line = this.highlightLines;
     }
 
-    if (this.getAttribute('title')) {
+    if (this.title) {
       headerEl.style.display = 'block';
-      headerEl.textContent = this.getAttribute('title');
-    }
-
-    if (this.getAttribute('header-color')) {
-      headerEl.style.backgroundColor = this.getAttribute('header-color');
+      headerEl.textContent = this.title;
     }
 
     this.hideHeader = () => headerEl.style.display = 'none';
@@ -127,21 +131,19 @@ Polymer({
       Prism.highlightElement(myCodeEl, false);
     }
 
-    if (this.getAttribute('code-src')) {
-      myPreEl.dataset.src = this.getAttribute('code-src');
+    if (this.codeSrc) {
+      myPreEl.dataset.src = this.codeSrc;
       loadCodeAjax(myPreEl, paintElement);
       return;
     }
 
-    if (this.getAttribute('code')) {
-      myCodeEl.innerHTML = this.getAttribute('code');
-    } else if (this.children[0] instanceof HTMLTemplateElement) {
-      myCodeEl.textContent = this.innerHTML;
-    } else {
-      myCodeEl.textContent = this.innerHTML;
-      // myCodeEl.innerHTML = this.innerHTML;
+    if (this.code) {
+      myCodeEl.innerHTML = this.code;
+      setTimeout(paintElement, 0);
+      return;
     }
 
+    myCodeEl.textContent = this.innerHTML;
     setTimeout(paintElement, 0);
   },
 
@@ -154,90 +156,3 @@ Polymer({
   },
 
 });
-
-
-
-
-(function() {
-  var importDoc = document.currentScript.ownerDocument; // importee
-
-  // Define and register <shadow-element>
-  // that uses Shadow DOM and a template.
-  var SuperCodeElement = Object.create(HTMLElement.prototype);
-
-
-
-  SuperCodeElement.createdCallback = function() {
-    console.log('created', arguments);
-    console.log(this);
-    // get template in import
-    var template = importDoc.querySelector('#t');
-
-    // import template into
-    var clone = document.importNode(template.content, true);
-    var self = this;
-    var root = this.attachShadow({mode: 'closed'});
-
-    root.appendChild(clone);
-    var myPreEl = root.querySelector('pre');
-    var myCodeEl = myPreEl.querySelector('code');
-    var headerEl = root.querySelector('.header');
-
-    myCodeEl.className += ' language-' + this.getAttribute('language');
-
-    if (this.getAttribute('line-numbers')) {
-      myPreEl.className += ' line-numbers';
-    }
-
-    if (this.getAttribute('highlight-lines')) {
-      myPreEl.dataset.line = this.getAttribute('highlight-lines');
-    }
-
-    if (this.getAttribute('title')) {
-      headerEl.style.display = 'block';
-      headerEl.textContent = this.getAttribute('title');
-    }
-
-    if (this.getAttribute('header-color')) {
-      headerEl.style.backgroundColor = this.getAttribute('header-color');
-    }
-
-    this.hideHeader = () => headerEl.style.display = 'none';
-
-    function paintElement() {
-      self.code = htmlEncode(myCodeEl.innerHTML);
-      Prism.highlightElement(myCodeEl, false);
-    }
-
-    if (this.getAttribute('code-src')) {
-      myPreEl.dataset.src = this.getAttribute('code-src');
-      loadCodeAjax(myPreEl, paintElement);
-      return;
-    }
-
-    if (this.getAttribute('code')) {
-      myCodeEl.innerHTML = this.getAttribute('code');
-    } else if (this.children[0] instanceof HTMLTemplateElement) {
-      myCodeEl.textContent = this.children[0].innerHTML;
-    } else {
-      myCodeEl.innerHTML = this.innerHTML;
-    }
-
-    setTimeout(paintElement, 0);
-  };
-
-  SuperCodeElement.attachedCallback = () => console.log('attached', arguments);
-  SuperCodeElement.detachedCallback = () => console.log('detached', arguments);
-  SuperCodeElement.attributeChangedCallback = function(attr, oldVal, newVal) {
-    console.log('attributeChanged', this, arguments);
-    if (attr === 'hide-header' && newVal) {
-      this.hideHeader();
-    }
-  };
-
-  document.registerElement('super-code', {
-    prototype: SuperCodeElement
-  });
-
-});
-

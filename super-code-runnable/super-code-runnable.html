@@ -10,9 +10,8 @@
         position: relative;
       }
       .panel {
-        overflow-x: scroll;
         flex: 1;
-        transition: flex-grow 300ms;
+        max-width: 100%;
       }
 
       #runButton {
@@ -37,6 +36,7 @@
         white-space: nowrap;
         padding: 10px;
         background-color: #FFF;
+        overflow: scroll;
       }
 
       #displayPanel.console .console-output.level-warn {
@@ -55,11 +55,12 @@
         display: none;
       }
       :host(.activated) .panel {
+        max-width: 50%;
       }
       :host(.activated) #displayPanel {
         flex: 1;
       }
-       </style>
+    </style>
 
     <div id="codePanel" class="panel">
       <content id="superCodeGroupContent" select="super-code-group"></content>

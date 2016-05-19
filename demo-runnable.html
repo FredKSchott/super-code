@@ -83,10 +83,10 @@ sum(1,2);</super-code>
 
         <super-code-runnable>
           <super-code-group>
-            <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+            <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10; &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
             <super-code language="css" code="#myDiv { background-color: #FA0; color: #338; }"></super-code>
             <super-code language="js">function sum(x, y) {
-    window.myDiv.innerHTML = ('Web ' + (x+y) + '.0');
+    window.myDiv.innerHTML += ('Web ' + (x+y) + '.0');
   }
   sum(2, 1);</super-code>
           </super-code-group>

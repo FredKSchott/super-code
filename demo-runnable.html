@@ -41,25 +41,40 @@
         </style>
 
         <super-code-runnable>
-          <super-code class="warning" language="js" title="thumbs up, lets do this...">function sum(x, y) {
+          <super-code class="warning" language="js" title="thumbs up, lets do this...">
+var bob = {
+  hello: 'there',
+  my: 'name',
+  is: 'fred',
+  and: 'this',
+  is: 'for',
+  page: 'stretching!!!!!!!!!!!!! !!! !!!!! !!!!!!!!!!! !!!! !!!!!!!!!! !!! !!!!! !!'
+};
+
+function sum(x, y) {
   console.log('Web ' + (x+y) + '.0');
   console.warn('Oh wow this works???');
   console.error('Im freaking out man...');
   return 'joeblow';
 }
+
 sum(2, 1);</super-code>
         </super-code-runnable>
 
-        <super-code-runnable sandbox-js='false' display-result='true'>
+        <super-code-runnable no-sandbox display-results>
           <super-code language="js">function sum(x, y) {
-  console.log('Web ' + (x+y) + '.0');
+  console.log('Web ' + (x+y) + '.0'); console.log('Page stretch'); console.log('Page stretch Page stretch Page stretch Page stretchPage stretchPage stretchPage stretchPage stretchPage stretchPage stretchPage stretch'); console.log('Page stretch'); console.log('Page stretch'); console.log('Page stretch');
   return x + y;
 }
 sum(1,2);</super-code>
         </super-code-runnable>
 
         <super-code-runnable>
-          <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+          <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10; &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+        </super-code-runnable>
+
+        <super-code-runnable>
+          <super-code language="php" code="$private_id = session_id();"></super-code>
         </super-code-runnable>
 
         <super-code-runnable run-remote="/">
@@ -68,7 +83,6 @@ sum(1,2);</super-code>
 
         <super-code-runnable>
           <super-code-group>
-            <!-- For some reason templates don't work here, Polymer bug? -->
             <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!!!!1!!&#10;&amp;lt;/div&amp;gt;"></super-code>
             <super-code language="css" code="#myDiv { background-color: #FA0; color: #338; }"></super-code>
             <super-code language="js">function sum(x, y) {
@@ -76,7 +90,8 @@ sum(1,2);</super-code>
   }
   sum(2, 1);</super-code>
           </super-code-group>
-        <super-code-runnable>
+        </super-code-runnable>
+
 
       </template>
 

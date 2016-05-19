@@ -34,7 +34,7 @@
     </style>
 
     <div class="tabstrip layout horizontal center">
-      <paper-tabs selected="{{_selected}}" class="flex">
+      <paper-tabs selected="{{selected}}" class="flex">
         <template is="dom-repeat" items="[[_panels]]">
           <paper-tab>{{_getTabNameForPanel(item)}}</paper-tab>
         </template>
@@ -42,39 +42,14 @@
     </div>
 
     <div class="layout horizontal">
-      <iron-pages selected="[[_selected]]">
-        <content id="contentpanels" select="super-code"></content>
+      <iron-pages selected="[[selected]]">
+        <content id="contentPanels" select="super-code"></content>
       </iron-pages>
     </div>
 
   </template>
 
-  <script>
-  Polymer({
-    is: 'super-code-group',
-    properties: {},
-    attached: function() {
-      this._observer =
-          Polymer.dom(this.$.contentpanels).observeNodes(function(mutations) {
-            this._updatePanels();
-          }.bind(this));
-      this._selected = 0;
-    },
-    detached: function() {
-      Polymer.dom(this.$.contentpanels).unobserveNodes(this._observer);
-    },
-    _updatePanels: function() {
-      this._panels = Polymer.dom(this.$.contentpanels).getDistributedNodes();
-      for (let panel of this._panels) {
-        panel.hideHeader();
-      }
-      console.log(this._panels);
-    },
-    _getTabNameForPanel: function(panel) {
-      return panel.getAttribute('title') || panel.getAttribute('language').toUpperCase();
-    }
-  });
-  </script>
+  <script type="text/javascript" src="super-code-group.js"></script>
 </dom-module>
 
 <!-- <script type="text/javascript" src="super-code-group-init.js"></script> -->

@@ -62,10 +62,10 @@
       <super-code language="markdown" title="MARKDOWN" code="# markdown header!!!&#10;&#10;*this* is **markdown**."></super-code>
 
 
-      <super-code class="warning" language="brainfuck" title="This... is... Brainfuck (and a styled native header)">++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.</super-code>
+      <super-code class="warning" language="brainfuck" title="This... is... Brainfuck (and a styled native header)" height="300px">++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.</super-code>
 
 
-      <super-code code-src="/node_modules/prismjs/bower.json" title="bower.json" highlight-lines="7-10">
+      <super-code code-src="/node_modules/prismjs/bower.json" title="bower.json" highlight-lines="7-10" height="300px">
         <div class="header" style="background-color: rgba(255,255,255,.4); font-family: 'Comic Sans MS'; padding: .4em; text-align: right;"><em>Loaded from the server AND custom header? You know it!</em></div>
         <div class="footer" style="background-color: #111; color: #CCC; padding: .4em 1em; font-family: Monaco; font-size: 12px; ">And I'm a custom slot footer!</div>
       </super-code>
@@ -83,12 +83,14 @@ function sum(x, y) {
         is: 'demo-app',
       });
       </script>
+
     </dom-module>
 
   </head>
 
   <body>
     <demo-app></demo-app>
+    <script src="/prism-languages.min.js"></script>
   </body>
 
 </html>

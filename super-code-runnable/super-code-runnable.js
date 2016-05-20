@@ -64,6 +64,14 @@ Polymer({
 
   attached: function() {
     console.log(this.localName + '#' + this.id + ' was attached');
+
+    if (this.runType === RUN_TYPE.GROUP) {
+      let groupEl = Polymer.dom(this.$.superCodeGroupContent).getDistributedNodes()[0];
+      if (!groupEl.height) {
+        console.warn('"height" attribute needed on <super-code-group> to prevent height change jumping inside of <super-code-runnable>');
+      }
+    }
+
   },
 
   detached: function() {

@@ -94,6 +94,10 @@ Polymer({
     'title': String,
     'code': String,
     'codeSrc': String,
+    'height': {
+      type: String,
+      observer: '_heightChanged'
+    }
   },
 
   created: function() {
@@ -154,5 +158,16 @@ Polymer({
   detached: function() {
     console.log(this.localName + '#' + this.id + ' was detached');
   },
+
+  attributeChanged: function(name, type) {
+    console.log(this.localName + '#' + this.id + ' attribute ' + name +
+      ' was changed to ' + this.getAttribute(name));
+  },
+
+  _heightChanged: function(newHeight) {
+    var myPreEl = this.$$('pre');
+    console.log('AHH', newHeight);
+    myPreEl.style.height = newHeight;
+  }
 
 });

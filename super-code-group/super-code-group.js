@@ -11,7 +11,7 @@ Polymer({
   },
 
   attached: function() {
-    this._panels = Polymer.dom(this.$.contentPanels).getDistributedNodes();
+    this._panels = Polymer.dom(this.$.codePanels).getDistributedNodes();
     for (let panel of this._panels) {
       panel.hideHeader();
       if (this.height) {

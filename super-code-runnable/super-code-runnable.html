@@ -1,7 +1,10 @@
-<!-- <link rel="import" href="../launch-icon.svg"> -->
+<!-- Load Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Load Dependencies -->
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 
 <dom-module id='super-code-runnable'>
+
   <template>
 
     <style>
@@ -62,10 +65,14 @@
       }
     </style>
 
+    <!-- CONTENT -->
+    <!-- Code Panel -->
     <div id="codePanel" class="panel">
       <content id="superCodeGroupContent" select="super-code-group"></content>
       <content id="superCodeContent" select="super-code"></content>
     </div>
+
+    <!-- Run FAB -->
     <paper-fab id="runButton" src="play-icon.svg" title="heart eyes cat"></paper-fab>
 
   </template>

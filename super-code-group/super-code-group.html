@@ -1,10 +1,13 @@
+<!-- Load Polymer -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Load Dependencies -->
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <dom-module id='super-code-group'>
+
   <template>
 
     <style include="iron-flex">
@@ -33,6 +36,8 @@
       }
     </style>
 
+    <!-- CONTENT -->
+    <!-- Tabs Strip -->
     <div class="tabstrip layout horizontal center">
       <paper-tabs selected="{{selected}}" class="flex">
         <template is="dom-repeat" items="[[_panels]]">
@@ -41,15 +46,15 @@
       </paper-tabs>
     </div>
 
+    <!-- Code Panels -->
     <div class="layout horizontal">
       <iron-pages selected="[[selected]]">
-        <content id="contentPanels" select="super-code"></content>
+        <content id="codePanels" select="super-code"></content>
       </iron-pages>
     </div>
 
   </template>
 
   <script type="text/javascript" src="super-code-group.js"></script>
-</dom-module>
 
-<!-- <script type="text/javascript" src="super-code-group-init.js"></script> -->
+</dom-module>

@@ -1,17 +1,22 @@
-<link rel="import" href="light-theme.html">
+<!-- Load Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
 
+<!-- Load Prism & Core Plugins -->
 <script src="../node_modules/prismjs/prism.js"></script>
-
 <script src="../node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js"></script>
 <script src="../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"></script>
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Import Default Theme -->
+<link rel="import" href="light-theme.html">
 
 <dom-module id='super-code'>
-  <template id="t">
 
+  <template>
+
+    <!-- Include "Light" theme as default super-code theme -->
     <style include="light-theme"></style>
 
+    <!-- Include required plugin CSS -->
     <style type="text/css">
 
       /*
@@ -111,46 +116,10 @@
         padding-right: 0.8em;
         text-align: right;
       }
-
-      /*
-       * PLUGIN
-       * ../node_modules/prismjs/plugins/show-language/prism-show-language.css
-       */
-      div.prism-show-language {
-        position: relative;
-      }
-
-      div.prism-show-language > div.prism-show-language-label {
-        color: black;
-        background-color: #CFCFCF;
-        display: inline-block;
-        position: absolute;
-        bottom: auto;
-        left: auto;
-        top: 0;
-        right: 0;
-        width: auto;
-        height: auto;
-        font-size: 0.9em;
-        border-radius: 0 0 0 5px;
-        padding: 0 0.5em;
-        text-shadow: none;
-        z-index: 1;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-        -webkit-transform: none;
-        -moz-transform: none;
-        -ms-transform: none;
-        -o-transform: none;
-        transform: none;
-      }
     </style>
 
+    <!-- Include additional super-code CSS -->
     <style>
-      :host {
-        display: block;
-      }
 
       /* overrides */
       pre[class*="language-"] {
@@ -158,6 +127,10 @@
       }
 
       /* custom */
+      :host {
+        display: block;
+      }
+
       :host .header {
         display: none;
         padding: .8em;
@@ -167,15 +140,8 @@
       }
     </style>
 
+    <!-- Include theming support -->
     <style>
-
-      /* theming */
-
-      /**
-       * prism.js default theme for JavaScript, CSS and HTML
-       * Based on dabblet (http://dabblet.com)
-       * @author Lea Verou
-       */
       code[class*="language-"] {
         @apply(--super-code-theme-code);
       }
@@ -250,7 +216,7 @@
       .header { @apply(--super-code-theme-header); }
     </style>
 
-
+    <!-- CONTENT -->
     <content select=".header"><div class="header"></div></content>
     <pre><code></code></pre>
     <content select=".footer"></content>

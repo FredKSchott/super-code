@@ -51,12 +51,19 @@
 }</super-code>
 
 
-      <super-code language="html"><div id="myDiv">
-  Hello world!!!!#!11!!!!
-</div></super-code>
+      <super-code language="html">
+        <template><div id="myDiv">
+  Hello! I am using a basic template!
+</div></template>
+      </super-code>
 
 
-      <super-code language="html" code="&amp;lt;div id=&amp;quot;myDiv&amp;quot;&amp;gt;&#10;  hello world!!!!!222!!!2!!&#10;&amp;lt;/div&amp;gt;"></super-code>
+      <super-code language="html">
+        <template preserve-content><div id="myDiv">
+  Hello! I am using a template with preserve-content tag!
+  This behaves similarly to how templates are cloned outside of Polymer.
+</div></template>
+      </super-code>
 
 
       <super-code language="markdown" title="MARKDOWN" code="# markdown header!!!&#10;&#10;*this* is **markdown**."></super-code>

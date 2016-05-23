@@ -143,11 +143,17 @@ Polymer({
 
     if (this.code) {
       myCodeEl.innerHTML = this.code;
-      setTimeout(paintElement, 0);
-      return;
+    } else if (this.children[0] instanceof HTMLTemplateElement) {
+      let templateFragment = this.children[0].content;
+      if (templateFragment.children.length === 0) {
+        templateFragment = this.children[0]._content;
+      }
+      let templateContent = templateFragment.children[0].outerHTML;
+      myCodeEl.textContent = templateContent;
+    } else {
+      myCodeEl.innerHTML = this.innerHTML;
     }
 
-    myCodeEl.textContent = this.innerHTML;
     setTimeout(paintElement, 0);
   },
 
